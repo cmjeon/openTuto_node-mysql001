@@ -140,4 +140,6 @@ var app = http.createServer(function(request,response){
       response.end('Not found');
     }
 });
-app.listen(3000);
+app.listen(3000, function(){
+  console.log("Server is running : localhost:3000");
+});
