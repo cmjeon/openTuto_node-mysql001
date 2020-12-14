@@ -59,7 +59,7 @@ var app = http.createServer(function(request,response){
           if(err1) {
             throw err1;
           }
-          db.query(`SELECT * FROM topic WHERE id=?`, [queryData.id], (err2, res2) => {
+          db.query(`SELECT * FROM topic LEFT JOIN author On topic.author_id=author.id WHERE topic.id=?`, [queryData.id], (err2, res2) => {
             if(err2) {
               throw err2;
             }
@@ -68,7 +68,8 @@ var app = http.createServer(function(request,response){
             var description = res2[0].description;
             var list = template.list(res1);
             var html = template.HTML(title, list,
-              `<h2>${title}</h2>${description}`,
+              `<h2>${title}</h2>${description}
+              <p>by ${res2[0].name}</p>`,
               `<a href="/create">create</a>
               <a href="/create">create</a>
                 <a href="/update?id=${queryData.id}">update</a>
