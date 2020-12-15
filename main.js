@@ -85,22 +85,28 @@ var app = http.createServer(function(request,response){
       }
     } else if(pathname === '/create'){
       db.query(`SELECT * FROM topic`, (err, res) => {
-        console.log(res);
-        var title = 'Create';
-        var list = template.list(res);
-        var html = template.HTML(title, list,
-          `<form action="/create_process" method="post">
-            <p><input type="text" name="title" placeholder="title"></p>
-            <p>
-              <textarea name="description" placeholder="description"></textarea>
-            </p>
-            <p>
-              <input type="submit">
-            </p>
-          </form>`,
-           `<a href="/create">create</a>`);
-        response.writeHead(200);
-        response.end(html);
+        db.query(`SELECT * FROM author`, (err2, authors) => {
+          console.log(authors);
+          
+          var title = 'Create';
+          var list = template.list(res);
+          var html = template.HTML(title, list,
+            `<form action="/create_process" method="post">
+              <p><input type="text" name="title" placeholder="title"></p>
+              <p>
+                <textarea name="description" placeholder="description"></textarea>
+              </p>
+              <p>
+                ${template.authorSelect(authors)}
+              </p>
+              <p>
+                <input type="submit">
+              </p>
+            </form>`,
+             `<a href="/create">create</a>`);
+          response.writeHead(200);
+          response.end(html);
+        });
       });
       // fs.readdir('./data', function(error, filelist){
       //   var title = 'WEB - create';
