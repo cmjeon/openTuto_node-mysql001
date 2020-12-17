@@ -8,6 +8,7 @@ var url = require('url');
 // var mysql = require('mysql');
 // var db = require('./lib/db');
 var topic = require('./lib/topic');
+var author = require('./lib/author');
 
 var app = http.createServer(function(request, response){
     var _url = request.url;
@@ -29,6 +30,8 @@ var app = http.createServer(function(request, response){
       topic.update_process(request, response);
     } else if(pathname === '/delete_process'){
       topic.delete_process(request, response);
+    } else if(pathname === '/author') {
+      author.home(request, response);
     } else {
       response.writeHead(404);
       response.end('Not found');
